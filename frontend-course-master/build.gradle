@@ -1,0 +1,47 @@
+plugins {
+    id 'org.jetbrains.kotlin.js' version '1.4.21'
+    id 'org.jetbrains.kotlin.plugin.serialization' version '1.4.21'
+}
+
+group 'org.example'
+version '1.0-SNAPSHOT'
+
+def kotlinReactVersion = react_version + suffix + kotlin_version
+def kotlinReactRouterVersion = react_router_version + suffix + kotlin_version
+def kotlinReduxVersion = redux_version + suffix + kotlin_version
+def kotlinReactReduxVersion = react_redux_version + suffix + kotlin_version
+
+repositories {
+    mavenCentral()
+    jcenter()
+    maven { url "https://kotlin.bintray.com/kotlin-js-wrappers" }
+    maven { url "https://kotlin.bintray.com/kotlinx" }
+}
+
+dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-js"
+    implementation "org.jetbrains:kotlin-react:$kotlinReactVersion"
+    implementation "org.jetbrains:kotlin-react-dom:$kotlinReactVersion"
+    implementation "org.jetbrains:kotlin-react-router-dom:$kotlinReactRouterVersion"
+    implementation "org.jetbrains:kotlin-redux:$kotlinReduxVersion"
+    implementation "org.jetbrains:kotlin-react-redux:$kotlinReactReduxVersion"
+    implementation "io.ktor:ktor-client-js:$ktor_version"
+    implementation "io.ktor:ktor-client-serialization:$ktor_version"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$ktor_version"
+    testImplementation "org.jetbrains.kotlin:kotlin-test-js"
+}
+
+
+kotlin {
+    target.browser {}
+    sourceSets["main"].dependencies {
+        implementation(npm("react", "17.0.1"))
+        implementation(npm("react-dom", "17.0.1"))
+        implementation(npm("react-router-dom", "4.3.1"))
+        implementation(npm("redux", "4.0.0"))
+        implementation(npm("react-redux", "7.1.1"))
+        implementation(npm("redux-logger", "3.0.6"))
+    }
+}
+
+compileKotlinJs.kotlinOptions.moduleKind = 'commonjs'
